@@ -1,0 +1,1102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Yashasvi Singh — Data Analyst</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #080c14;
+      --bg2: #0d1322;
+      --bg3: #111827;
+      --card: #131c2e;
+      --border: rgba(99,179,237,0.12);
+      --accent: #38bdf8;
+      --accent2: #818cf8;
+      --accent3: #34d399;
+      --text: #e2e8f0;
+      --muted: #64748b;
+      --highlight: #f0f9ff;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Outfit', sans-serif;
+      font-weight: 400;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* NOISE OVERLAY */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.4;
+    }
+
+    /* GRID BACKGROUND */
+    .grid-bg {
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(56,189,248,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(56,189,248,0.04) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.2rem 4rem;
+      background: rgba(8,12,20,0.85);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.9rem;
+      color: var(--accent);
+      letter-spacing: 0.05em;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--muted);
+      font-size: 0.85rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: color 0.3s;
+      font-family: 'IBM Plex Mono', monospace;
+    }
+
+    .nav-links a:hover { color: var(--accent); }
+
+    /* HERO */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 8rem 4rem 4rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .hero-tag {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.78rem;
+      color: var(--accent3);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.2s ease forwards;
+    }
+
+    .hero-tag::before {
+      content: '';
+      width: 40px; height: 1px;
+      background: var(--accent3);
+    }
+
+    h1.hero-name {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(3.5rem, 8vw, 7rem);
+      font-weight: 800;
+      line-height: 1;
+      letter-spacing: -0.02em;
+      color: var(--highlight);
+      margin-bottom: 0.3rem;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.35s ease forwards;
+    }
+
+    h2.hero-title {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(1.5rem, 4vw, 3rem);
+      font-weight: 600;
+      color: var(--accent);
+      margin-bottom: 2rem;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.5s ease forwards;
+    }
+
+    .hero-desc {
+      max-width: 600px;
+      color: var(--muted);
+      font-size: 1.05rem;
+      line-height: 1.8;
+      margin-bottom: 3rem;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.65s ease forwards;
+    }
+
+    .hero-cta {
+      display: flex;
+      gap: 1.2rem;
+      flex-wrap: wrap;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.8s ease forwards;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.9rem 2rem;
+      background: var(--accent);
+      color: var(--bg);
+      font-weight: 600;
+      font-size: 0.9rem;
+      text-decoration: none;
+      letter-spacing: 0.05em;
+      transition: all 0.3s;
+      clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+    }
+
+    .btn-primary:hover {
+      background: #7dd3fc;
+      transform: translateY(-2px);
+    }
+
+    .btn-outline {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.9rem 2rem;
+      border: 1px solid var(--accent);
+      color: var(--accent);
+      font-weight: 500;
+      font-size: 0.9rem;
+      text-decoration: none;
+      letter-spacing: 0.05em;
+      transition: all 0.3s;
+    }
+
+    .btn-outline:hover {
+      background: rgba(56,189,248,0.1);
+      transform: translateY(-2px);
+    }
+
+    /* GLOW ORBS */
+    .orb {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(120px);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .orb-1 {
+      width: 500px; height: 500px;
+      background: radial-gradient(circle, rgba(56,189,248,0.15), transparent 70%);
+      top: -100px; right: -100px;
+    }
+
+    .orb-2 {
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, rgba(129,140,248,0.12), transparent 70%);
+      bottom: 20%; left: -100px;
+    }
+
+    /* SECTION COMMON */
+    section {
+      position: relative;
+      z-index: 1;
+      padding: 6rem 4rem;
+    }
+
+    .section-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--accent);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 0.8rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .section-label::after {
+      content: '';
+      flex: 1;
+      max-width: 60px;
+      height: 1px;
+      background: var(--accent);
+    }
+
+    .section-title {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(2rem, 4vw, 2.8rem);
+      font-weight: 700;
+      color: var(--highlight);
+      margin-bottom: 3.5rem;
+    }
+
+    /* ABOUT */
+    #about { background: var(--bg2); }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    .about-text p {
+      color: var(--muted);
+      font-size: 1rem;
+      line-height: 1.9;
+      margin-bottom: 1.2rem;
+    }
+
+    .about-text p span { color: var(--accent); }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+
+    .stat-box {
+      background: var(--card);
+      border: 1px solid var(--border);
+      padding: 1.8rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .stat-box::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 3px; height: 100%;
+      background: var(--accent);
+    }
+
+    .stat-num {
+      font-family: 'Syne', sans-serif;
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: var(--accent);
+      line-height: 1;
+    }
+
+    .stat-label {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-top: 0.4rem;
+      letter-spacing: 0.05em;
+    }
+
+    /* SKILLS */
+    #skills { background: var(--bg); }
+
+    .skills-categories {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+
+    .skill-category {
+      background: var(--card);
+      border: 1px solid var(--border);
+      padding: 2rem;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+
+    .skill-category:hover {
+      border-color: var(--accent);
+      transform: translateY(-4px);
+    }
+
+    .skill-cat-icon {
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+    }
+
+    .skill-cat-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--highlight);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 1.2rem;
+    }
+
+    .skill-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .skill-tag {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.72rem;
+      padding: 0.3rem 0.7rem;
+      background: rgba(56,189,248,0.08);
+      border: 1px solid rgba(56,189,248,0.2);
+      color: var(--accent);
+      letter-spacing: 0.05em;
+    }
+
+    .skill-tag.purple {
+      background: rgba(129,140,248,0.08);
+      border-color: rgba(129,140,248,0.2);
+      color: var(--accent2);
+    }
+
+    .skill-tag.green {
+      background: rgba(52,211,153,0.08);
+      border-color: rgba(52,211,153,0.2);
+      color: var(--accent3);
+    }
+
+    /* EXPERIENCE */
+    #experience { background: var(--bg2); }
+
+    .timeline {
+      position: relative;
+      padding-left: 2.5rem;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 1px;
+      background: linear-gradient(to bottom, var(--accent), var(--accent2), transparent);
+    }
+
+    .timeline-item {
+      position: relative;
+      margin-bottom: 3.5rem;
+      padding-left: 1.5rem;
+    }
+
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -2.1rem; top: 0.5rem;
+      width: 10px; height: 10px;
+      border: 2px solid var(--accent);
+      background: var(--bg);
+      border-radius: 50%;
+    }
+
+    .timeline-date {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--accent3);
+      letter-spacing: 0.15em;
+      margin-bottom: 0.4rem;
+    }
+
+    .timeline-role {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--highlight);
+      margin-bottom: 0.2rem;
+    }
+
+    .timeline-company {
+      font-size: 0.85rem;
+      color: var(--accent);
+      margin-bottom: 1rem;
+    }
+
+    .timeline-bullets {
+      list-style: none;
+    }
+
+    .timeline-bullets li {
+      color: var(--muted);
+      font-size: 0.9rem;
+      padding: 0.4rem 0;
+      padding-left: 1.2rem;
+      position: relative;
+      line-height: 1.6;
+    }
+
+    .timeline-bullets li::before {
+      content: '▸';
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+    }
+
+    /* PROJECTS */
+    #projects { background: var(--bg); }
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2rem;
+    }
+
+    .project-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      padding: 2.2rem;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.3s, transform 0.3s;
+      cursor: default;
+    }
+
+    .project-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      transform: scaleX(0);
+      transition: transform 0.4s;
+    }
+
+    .project-card:hover::before { transform: scaleX(1); }
+
+    .project-card:hover {
+      border-color: rgba(56,189,248,0.3);
+      transform: translateY(-5px);
+    }
+
+    .project-number {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--muted);
+      letter-spacing: 0.15em;
+      margin-bottom: 1rem;
+    }
+
+    .project-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--highlight);
+      margin-bottom: 0.8rem;
+    }
+
+    .project-desc {
+      color: var(--muted);
+      font-size: 0.9rem;
+      line-height: 1.7;
+      margin-bottom: 1.5rem;
+    }
+
+    .project-stack {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+
+    .stack-tag {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.68rem;
+      padding: 0.25rem 0.6rem;
+      background: rgba(56,189,248,0.06);
+      border: 1px solid rgba(56,189,248,0.15);
+      color: var(--accent);
+    }
+
+    /* EDUCATION & CERTS */
+    #education { background: var(--bg2); }
+
+    .edu-certs-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+    }
+
+    .edu-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      padding: 2rem;
+      margin-bottom: 1.5rem;
+      position: relative;
+    }
+
+    .edu-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0;
+      width: 100%; height: 1px;
+      background: linear-gradient(90deg, var(--accent), transparent);
+    }
+
+    .edu-degree {
+      font-family: 'Syne', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--highlight);
+      margin-bottom: 0.3rem;
+    }
+
+    .edu-institute {
+      font-size: 0.85rem;
+      color: var(--accent);
+      margin-bottom: 0.5rem;
+    }
+
+    .edu-meta {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--muted);
+    }
+
+    .edu-cgpa {
+      display: inline-block;
+      margin-top: 0.6rem;
+      padding: 0.2rem 0.7rem;
+      background: rgba(52,211,153,0.1);
+      border: 1px solid rgba(52,211,153,0.25);
+      color: var(--accent3);
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.75rem;
+    }
+
+    .cert-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      padding: 1rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .cert-item:last-child { border-bottom: none; }
+
+    .cert-icon {
+      width: 36px; height: 36px;
+      background: rgba(129,140,248,0.12);
+      border: 1px solid rgba(129,140,248,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+
+    .cert-name {
+      font-size: 0.88rem;
+      color: var(--text);
+      font-weight: 500;
+      margin-bottom: 0.2rem;
+    }
+
+    .cert-issuer {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--accent2);
+    }
+
+    /* CONTACT */
+    #contact { background: var(--bg); }
+
+    .contact-wrapper {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: start;
+    }
+
+    .contact-info p {
+      color: var(--muted);
+      margin-bottom: 2rem;
+      line-height: 1.8;
+    }
+
+    .contact-links {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .contact-link {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      color: var(--text);
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: color 0.3s;
+    }
+
+    .contact-link:hover { color: var(--accent); }
+
+    .contact-link-icon {
+      width: 38px; height: 38px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+
+    .hire-box {
+      background: var(--card);
+      border: 1px solid var(--border);
+      padding: 3rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hire-box::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(56,189,248,0.05), rgba(129,140,248,0.05));
+    }
+
+    .hire-box h3 {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: var(--highlight);
+      margin-bottom: 1rem;
+      position: relative;
+    }
+
+    .hire-box p {
+      color: var(--muted);
+      margin-bottom: 2rem;
+      position: relative;
+    }
+
+    /* FOOTER */
+    footer {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 2rem 4rem;
+      border-top: 1px solid var(--border);
+      background: var(--bg);
+    }
+
+    footer p {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+    }
+
+    footer span { color: var(--accent); }
+
+    /* ANIMATIONS */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* SCROLLBAR */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--accent); }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { gap: 1.2rem; }
+      section { padding: 4rem 1.5rem; }
+      #hero { padding: 7rem 1.5rem 3rem; }
+      .about-grid,
+      .skills-categories,
+      .projects-grid,
+      .edu-certs-grid,
+      .contact-wrapper { grid-template-columns: 1fr; gap: 2rem; }
+      .stats-grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 560px) {
+      .nav-links { display: none; }
+      h1.hero-name { font-size: 2.8rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="grid-bg"></div>
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-logo">YS.portfolio</div>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#education">Education</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-inner">
+      <div class="hero-tag">Available for opportunities</div>
+      <h1 class="hero-name">Yashasvi<br/>Singh</h1>
+      <h2 class="hero-title">Data Analyst</h2>
+      <p class="hero-desc">
+        B.Tech CSE graduate turning raw data into actionable insights.
+        Skilled in Python, SQL, Power BI & Tableau — building dashboards and analytics pipelines that drive real decisions.
+      </p>
+      <div class="hero-cta">
+        <a href="#projects" class="btn-primary">View Projects →</a>
+        <a href="mailto:yashasvisingh9554@gmail.com" class="btn-outline">Let's Connect</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="section-inner">
+      <div class="section-label">01 — About</div>
+      <h2 class="section-title reveal">Who I Am</h2>
+      <div class="about-grid">
+        <div class="about-text reveal">
+          <p>
+            I'm a <span>fresher Data Analyst</span> from Prayagraj, UP, with a B.Tech in Computer Science from LDC Institute (AKTU 2026). I love finding patterns in messy data and building clean, impactful dashboards.
+          </p>
+          <p>
+            My experience spans virtual internships at <span>Deloitte Australia</span> and <span>Tata Group</span> (via Forage), where I worked on real-world analytics challenges — from telemetry data analysis to GenAI-powered insights.
+          </p>
+          <p>
+            I thrive at the intersection of data and storytelling — making numbers mean something to business stakeholders.
+          </p>
+        </div>
+        <div class="stats-grid reveal">
+          <div class="stat-box">
+            <div class="stat-num">8.2</div>
+            <div class="stat-label">CGPA / 10.0</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-num">3+</div>
+            <div class="stat-label">Projects Built</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-num">2</div>
+            <div class="stat-label">Virtual Internships</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-num">4+</div>
+            <div class="stat-label">Certifications</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills">
+    <div class="section-inner">
+      <div class="section-label">02 — Skills</div>
+      <h2 class="section-title reveal">Technical Stack</h2>
+      <div class="skills-categories">
+
+        <div class="skill-category reveal">
+          <div class="skill-cat-icon">📊</div>
+          <div class="skill-cat-title">Data Analysis & BI</div>
+          <div class="skill-tags">
+            <span class="skill-tag">Python</span>
+            <span class="skill-tag">Pandas</span>
+            <span class="skill-tag">NumPy</span>
+            <span class="skill-tag">SQL</span>
+            <span class="skill-tag">MySQL</span>
+            <span class="skill-tag">Excel</span>
+            <span class="skill-tag">VLOOKUP</span>
+            <span class="skill-tag">Pivot Tables</span>
+          </div>
+        </div>
+
+        <div class="skill-category reveal">
+          <div class="skill-cat-icon">📈</div>
+          <div class="skill-cat-title">Data Visualization</div>
+          <div class="skill-tags">
+            <span class="skill-tag purple">Power BI</span>
+            <span class="skill-tag purple">Tableau</span>
+            <span class="skill-tag purple">DAX</span>
+            <span class="skill-tag purple">Power Query</span>
+            <span class="skill-tag purple">Matplotlib</span>
+            <span class="skill-tag purple">Excel Charts</span>
+          </div>
+        </div>
+
+        <div class="skill-category reveal">
+          <div class="skill-cat-icon">💻</div>
+          <div class="skill-cat-title">Development</div>
+          <div class="skill-tags">
+            <span class="skill-tag green">React</span>
+            <span class="skill-tag green">Node.js</span>
+            <span class="skill-tag green">JavaScript</span>
+            <span class="skill-tag green">HTML/CSS</span>
+            <span class="skill-tag green">Java</span>
+            <span class="skill-tag green">C</span>
+            <span class="skill-tag green">Git</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <div class="section-inner">
+      <div class="section-label">03 — Experience</div>
+      <h2 class="section-title reveal">Work Experience</h2>
+      <div class="timeline reveal">
+
+        <div class="timeline-item">
+          <div class="timeline-date">May 2026</div>
+          <div class="timeline-role">Data Analytics Virtual Intern</div>
+          <div class="timeline-company">Deloitte via Forage</div>
+          <ul class="timeline-bullets">
+            <li>Analysed telemetry data from manufacturing devices using Tableau to identify downtime patterns.</li>
+            <li>Created calculated fields and interactive dashboards with cross-filtering to visualise factory performance.</li>
+            <li>Built bar charts tracking Down Time per Factory and per Device Type for forensic investigation.</li>
+            <li>Applied data classification logic to employee compensation data in Excel.</li>
+          </ul>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-date">August 2025</div>
+          <div class="timeline-role">GenAI Powered Data Analytics Virtual Intern</div>
+          <div class="timeline-company">Tata Group via Forage</div>
+          <ul class="timeline-bullets">
+            <li>Job simulation focused on GenAI-powered data analytics for a global consulting firm.</li>
+            <li>Analysed business datasets using Python and Excel to derive meaningful insights and trends.</li>
+            <li>Applied Generative AI tools to automate and enhance data interpretation workflows.</li>
+            <li>Prepared structured reports and visualizations for simulated stakeholders.</li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <div class="section-inner">
+      <div class="section-label">04 — Projects</div>
+      <h2 class="section-title reveal">Featured Work</h2>
+      <div class="projects-grid">
+
+        <div class="project-card reveal">
+          <div class="project-number">PROJECT_01</div>
+          <div class="project-title">SuperStore Sales Dashboard</div>
+          <p class="project-desc">
+            Designed an end-to-end Power BI dashboard analysing a 12.6M+ revenue dataset across product categories and regions. Built KPI cards tracking total sales, profit, quantity, and discount metrics. Performed category-wise and regional analysis to identify top-performing segments, with DAX measures for dynamic filtering and drill-down reporting.
+          </p>
+          <div class="project-stack">
+            <span class="stack-tag">Power BI</span>
+            <span class="stack-tag">DAX</span>
+            <span class="stack-tag">Power Query</span>
+            <span class="stack-tag">Excel</span>
+          </div>
+        </div>
+
+        <div class="project-card reveal">
+          <div class="project-number">PROJECT_02</div>
+          <div class="project-title">Weather Data Analytics App</div>
+          <p class="project-desc">
+            Built a real-time weather application integrated with OpenWeather API achieving 95% prediction accuracy. Implemented data parsing, JSON handling, and dynamic visualizations for temperature, humidity, and wind metrics with front-end rendering of analytical outputs.
+          </p>
+          <div class="project-stack">
+            <span class="stack-tag">React</span>
+            <span class="stack-tag">Node.js</span>
+            <span class="stack-tag">OpenWeather API</span>
+            <span class="stack-tag">JavaScript</span>
+          </div>
+        </div>
+
+        <div class="project-card reveal">
+          <div class="project-number">PROJECT_03</div>
+          <div class="project-title">E-Commerce Platform (Full-Stack)</div>
+          <p class="project-desc">
+            Designed and developed a responsive e-commerce website with data-driven UI/UX design principles. Structured product data and user interaction flows to improve UI/UX and drive engagement.
+          </p>
+          <div class="project-stack">
+            <span class="stack-tag">HTML</span>
+            <span class="stack-tag">CSS</span>
+            <span class="stack-tag">JavaScript</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- EDUCATION & CERTS -->
+  <section id="education">
+    <div class="section-inner">
+      <div class="section-label">05 — Education & Certs</div>
+      <h2 class="section-title reveal">Qualifications</h2>
+      <div class="edu-certs-grid">
+
+        <div class="reveal">
+          <div class="edu-card">
+            <div class="edu-degree">B.Tech — Computer Science & Engineering</div>
+            <div class="edu-institute">LDC Institute of Technical Studies, AKTU</div>
+            <div class="edu-meta">2022 – 2026</div>
+            <div class="edu-cgpa">CGPA: 8.2 / 10</div>
+          </div>
+          <div class="edu-card">
+            <div class="edu-degree">12th Grade (UP Board)</div>
+            <div class="edu-institute">Crosthwaite Girls College</div>
+            <div class="edu-meta">2021 · Score: 75%</div>
+          </div>
+          <div class="edu-card">
+            <div class="edu-degree">10th Grade (UP Board)</div>
+            <div class="edu-institute">Crosthwaite Girls College</div>
+            <div class="edu-meta">2019 · Score: 79%</div>
+          </div>
+        </div>
+
+        <div class="reveal">
+          <div class="cert-item">
+            <div class="cert-icon">🏆</div>
+            <div>
+              <div class="cert-name">Data Analytics Job Simulation</div>
+              <div class="cert-issuer">Deloitte via Forage · May 31, 2026</div>
+            </div>
+          </div>
+          <div class="cert-item">
+            <div class="cert-icon">🤖</div>
+            <div>
+              <div class="cert-name">GenAI Powered Data Analytics Job Simulation</div>
+              <div class="cert-issuer">Tata Group via Forage · August 24, 2025</div>
+            </div>
+          </div>
+          <div class="cert-item">
+            <div class="cert-icon">💡</div>
+            <div>
+              <div class="cert-name">Introduction to Artificial Intelligence</div>
+              <div class="cert-issuer">Skilllearn</div>
+            </div>
+          </div>
+          <div class="cert-item">
+            <div class="cert-icon">⚡</div>
+            <div>
+              <div class="cert-name">ChatGPT for Productivity</div>
+              <div class="cert-issuer">Skilllearn</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="section-inner">
+      <div class="section-label">06 — Contact</div>
+      <h2 class="section-title reveal">Get In Touch</h2>
+      <div class="contact-wrapper">
+        <div class="contact-info reveal">
+          <p>
+            I'm actively looking for entry-level Data Analyst opportunities. If you have an opening or just want to chat data — my inbox is open!
+          </p>
+          <div class="contact-links">
+            <a href="mailto:yashasvisingh9554@gmail.com" class="contact-link">
+              <div class="contact-link-icon">📧</div>
+              yashasvisingh9554@gmail.com
+            </a>
+            <a href="https://linkedin.com/in/Yashasvisingh" target="_blank" class="contact-link">
+              <div class="contact-link-icon">💼</div>
+              linkedin.com/in/Yashasvisingh
+            </a>
+            <a href="#" class="contact-link">
+              <div class="contact-link-icon">📍</div>
+              Prayagraj, Uttar Pradesh
+            </a>
+            <a href="tel:+919651369740" class="contact-link">
+              <div class="contact-link-icon">📱</div>
+              +91 9651369740
+            </a>
+          </div>
+        </div>
+
+        <div class="hire-box reveal">
+          <h3>Open to Work 🚀</h3>
+          <p>Seeking fresher Data Analyst roles across India. Immediate joiner.</p>
+          <a href="mailto:yashasvisingh9554@gmail.com" class="btn-primary">Hire Me →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>Designed & built by <span>Yashasvi Singh</span> · Data Analyst · Prayagraj, UP · 2026</p>
+  </footer>
+
+  <script>
+    // Scroll reveal
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
